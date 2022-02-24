@@ -1,0 +1,17 @@
+{
+  "name": "dimlit",
+  "version": "1.0.0",
+  "main": "dist/dimlit.js",
+  "license": "MIT",
+  "dependencies": {
+    "babylonjs": "^4.2.1",
+    "esbuild": "^0.14.23"
+  },
+  "devDependencies": {
+    "typescript": "^4.5.5"
+  },
+  "scripts": {
+    "dev": "cp -rp public/* dist && esbuild src/index.ts --bundle --sourcemap --servedir=dist --outfile=dist/dimlit.js",
+    "build": "cp -rp public/* dist && esbuild src/index.ts --bundle --minify --sourcemap --outfile=dist/dimlit.js"
+  }
+}
