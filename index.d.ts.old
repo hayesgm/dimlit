@@ -1,0 +1,189 @@
+import { Component } from 'react';
+import { MapSchemaTypes, ObjectMap, SubMap, types } from './types';
+
+// import { components } from 'aframe';
+
+// import { components } from 'aframe';
+
+// console.log({components});
+
+// type BooleanType = {
+//   t: boolean;
+// };
+// type StringType = {
+//   t: string;
+// };
+
+//type Typer = { t: 'string' | 'boolean' };
+//type SubMap = { [propName: string]: 'boolean' | 'string' };
+// type SubMap = Record<string, keyof MapSchemaTypes>;
+// //type ObjectMap = { [name: string]: SubMap };
+// type ObjectMap = Record<string, SubMap>;
+// let componentMap: ObjectMap = Object.entries(components).reduce((acc, [name, type_]) => {
+//   let type = type_ as unknown as Component;
+//   if (type.schema) {
+//     let res: SubMap = {};
+//     for (let [propName, propSchema] of Object.entries(type.schema as MultiPropertySchema<any>)) {
+//       res[propName] = 'boolean'; //propSchema.type === 'boolean' ? 'boolean' : 'string';
+//       // res[propName] = propSchema.type === 'boolean' ? 'boolean' : 'string';
+//       // res[propName] = propSchema.type;
+//     }
+//     return {
+//       ...acc,
+//       [name]: res
+//     };
+//   } else {
+//     return acc;
+//   }
+// }, {});
+
+// function asSchema<T extends Record<string, SubMap>>(t: T): T {
+//   return t;
+// }
+
+// // let componentMapD: ObjectMap = {
+// //   text: { font: 'string', value: 'string' },
+// // };
+// // let componentMapC = asSchema(componentMapD);
+// // let componentMapC = { text: { font: 'boolean', value: 'string' } } as const;
+// type SchemaInner = Record<string, { type: keyof MapSchemaTypes }>;
+// //let componentMapC: MapSchema<T> = Object.fromEntries(Object.entries(components).map(([k, v]) => {
+// //  return [k, Object.fromEntries(Object.entries((v as any).schema as SchemaInner).map(([name, type]) => [name, type.type as const]))];
+// //}));
+
+// // let componentMapC = asSchema(componentMapD) as const;
+// console.log({componentMap});
+// const componentMapC = types as const;
+
+// type SubType<T extends BooleanType | StringType> = T extends BooleanType
+//   ? boolean
+//   : string;
+
+// type SubType<T> = T extends { t: unknown } ? T["t"] : never;
+
+// type GenerateSub<T extends SubMap> = {
+//   [K in keyof T]: SubType<T[K]>
+// };
+
+// type Generate<T extends ObjectMap> = {
+//   [K in keyof T]: GenerateSub<T[K]>
+// };
+
+// declare type EntityC = Generate<typeof componentMap>;
+
+// type MapSchemaTypes = {
+//   string: string;
+//   boolean: boolean;
+//   // others?
+// }
+
+type PropTypes<U extends Record<string, keyof MapSchemaTypes>> = {
+  -readonly [K in keyof U]?: MapSchemaTypes[U[K]]
+}
+
+// type PropTypes<T> = T extends { t: unknown } ? T["t"] : never;
+
+// type PropTypes<T> = T extends { t: unknown } ? T["t"] : never;
+
+type MapSchema<T extends Record<string, SubMap>> = {
+  -readonly [K in keyof T]: PropTypes<T[K]>
+}
+
+type EntityC = MapSchema<typeof types>;
+
+// // import { components } from 'aframe';
+
+// // import { components } from 'aframe';
+
+// // console.log({components});
+
+// // type BooleanType = {
+// //   t: boolean;
+// // };
+// // type StringType = {
+// //   t: string;
+// // };
+
+// //type Typer = { t: 'string' | 'boolean' };
+// //type SubMap = { [propName: string]: 'boolean' | 'string' };
+// type SubMap = Record<string, keyof MapSchemaTypes>;
+// //type ObjectMap = { [name: string]: SubMap };
+// type ObjectMap = Record<string, SubMap>;
+// // let componentMap: ObjectMap = Object.entries(components).reduce((acc, [name, type_]) => {
+// //   let type = type_ as unknown as Component;
+// //   if (type.schema) {
+// //     let res: SubMap = {};
+// //     for (let [propName, propSchema] of Object.entries(type.schema as MultiPropertySchema<any>)) {
+// //       res[propName] = 'boolean'; //propSchema.type === 'boolean' ? 'boolean' : 'string';
+// //       // res[propName] = propSchema.type === 'boolean' ? 'boolean' : 'string';
+// //       // res[propName] = propSchema.type;
+// //     }
+// //     return {
+// //       ...acc,
+// //       [name]: res
+// //     };
+// //   } else {
+// //     return acc;
+// //   }
+// // }, {});
+
+// // function asSchema<T extends Record<string, SubMap>>(t: T): T {
+// //   return t;
+// // }
+
+// // // let componentMapD: ObjectMap = {
+// // //   text: { font: 'string', value: 'string' },
+// // // };
+// // // let componentMapC = asSchema(componentMapD);
+// // // let componentMapC = { text: { font: 'boolean', value: 'string' } } as const;
+// // type SchemaInner = Record<string, { type: keyof MapSchemaTypes }>;
+// // //let componentMapC: MapSchema<T> = Object.fromEntries(Object.entries(components).map(([k, v]) => {
+// // //  return [k, Object.fromEntries(Object.entries((v as any).schema as SchemaInner).map(([name, type]) => [name, type.type as const]))];
+// // //}));
+
+// // // let componentMapC = asSchema(componentMapD) as const;
+// // console.log({componentMap});
+// const componentMapC = types as const;
+
+// // type SubType<T extends BooleanType | StringType> = T extends BooleanType
+// //   ? boolean
+// //   : string;
+
+// // type SubType<T> = T extends { t: unknown } ? T["t"] : never;
+
+// // type GenerateSub<T extends SubMap> = {
+// //   [K in keyof T]: SubType<T[K]>
+// // };
+
+// // type Generate<T extends ObjectMap> = {
+// //   [K in keyof T]: GenerateSub<T[K]>
+// // };
+
+// // declare type EntityC = Generate<typeof componentMap>;
+
+// type MapSchemaTypes = {
+//   string: string;
+//   boolean: boolean;
+//   // others?
+// }
+
+// type PropTypes<U extends Record<string, keyof MapSchemaTypes>> = {
+//   -readonly [K in keyof U]?: MapSchemaTypes[U[K]]
+// }
+
+// // type PropTypes<T> = T extends { t: unknown } ? T["t"] : never;
+
+// // type PropTypes<T> = T extends { t: unknown } ? T["t"] : never;
+
+// type MapSchema<T extends Record<string, SubMap>> = {
+//   -readonly [K in keyof T]: PropTypes<T[K]>
+// }
+
+// type EntityC = MapSchema<typeof componentMapC>;
+// console.log({componentMap});
+
+console.log({components});
+declare module 'aframe-react' {
+  export class Entity extends React.Component<EntityC> {};
+  export class Scene extends React.Component<any> {};
+}
