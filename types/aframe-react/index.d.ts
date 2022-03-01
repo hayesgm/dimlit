@@ -11,11 +11,11 @@ export type MapSchemaTypes = {
   selector: string;
   map: object;
   array: any[];
-  model: string;
+  model: { src: string };
   asset: string;
   int: BigInt;
-  // others?
 }
+
 export const types = {
     "portal": {
         "borderEnabled": "int",
@@ -190,7 +190,7 @@ export const types = {
         "orientationOffset": "vec3",
         "disabled": "boolean"
     },
-    "gltf-model": {},
+    "gltf-model": "model",
     "hand-tracking-controls": {
         "hand": "string",
         "modelStyle": "string",
@@ -349,7 +349,7 @@ export const types = {
         "controllerType": "string",
         "orientationOffset": "vec3"
     },
-    "position": {},
+    "position": "vec3",
     "raycaster": {
         "autoRefresh": "boolean",
         "direction": "vec3",
@@ -364,8 +364,8 @@ export const types = {
         "lineOpacity": "number",
         "useWorldCoordinates": "boolean"
     },
-    "rotation": {},
-    "scale": {},
+    "rotation": "vec3",
+    "scale": "vec3",
     "sound": {
         "autoplay": "boolean",
         "distanceModel": "string",
@@ -434,7 +434,7 @@ export const types = {
         "index": "int",
         "iterateControllerProfiles": "boolean"
     },
-    "visible": {},
+    "visible": "boolean",
     "valve-index-controls": {
         "hand": "string",
         "buttonColor": "color",
@@ -486,7 +486,7 @@ export const types = {
         "color": "color",
         "transparent": "boolean"
     },
-    "debug": {},
+    "debug": "boolean",
     "device-orientation-permission-ui": {
         "enabled": "boolean",
         "deviceMotionMessage": "string",
@@ -495,7 +495,7 @@ export const types = {
         "allowButtonText": "string",
         "cancelButtonText": "string"
     },
-    "embedded": {},
+    "embedded": "boolean",
     "inspector": {
         "url": "string"
     },
@@ -524,13 +524,13 @@ export const types = {
         "height": "number",
         "camera": "selector"
     },
-    "stats": {},
+    "stats": "boolean",
     "vr-mode-ui": {
         "enabled": "boolean",
         "enterVRButton": "string",
         "enterARButton": "string"
     },
-    "pivot": {},
+    "pivot": "vec3",
     "log": "string"
 } as const;
 

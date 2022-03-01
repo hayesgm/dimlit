@@ -22,6 +22,7 @@
   },
   "scripts": {
     "dev": "cp -rp public/* dist && esbuild src/index.tsx --bundle --sourcemap --servedir=dist --outfile=dist/dimlit.js",
-    "build": "cp -rp public/* dist && esbuild src/index.tsx --bundle --minify --sourcemap --outfile=dist/dimlit.js"
+    "build": "cp -rp public/* dist && esbuild src/index.tsx --bundle --minify --sourcemap --outfile=dist/dimlit.js",
+    "types": "esbuild src/getComponents.ts --bundle --outfile=dist/getComponents.js && node ./generateTypes.js"
   }
 }
