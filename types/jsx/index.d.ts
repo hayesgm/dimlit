@@ -531,20 +531,93 @@ export const types = {
         "enterARButton": "string"
     },
     "pivot": "vec3",
+    "change-color-on-hover": {
+        "color": "string"
+    },
     "log": "string"
+} as const;
+
+export const aTypes = {
+    "a-portal": null,
+    "a-flat": null,
+    "a-standard": null,
+    "a-phong": null,
+    "a-sdf": null,
+    "a-msdf": null,
+    "a-ios10hls": null,
+    "a-shadow": null,
+    "a-animation": null,
+    "a-camera": null,
+    "a-cursor": null,
+    "a-daydream-controls": null,
+    "a-gearvr-controls": null,
+    "a-geometry": null,
+    "a-generic-tracked-controller-controls": null,
+    "a-gltf-model": null,
+    "a-hand-tracking-controls": null,
+    "a-hand-controls": null,
+    "a-hide-on-enter-ar": null,
+    "a-hp-mixed-reality-controls": null,
+    "a-layer": null,
+    "a-laser-controls": null,
+    "a-light": null,
+    "a-line": null,
+    "a-link": null,
+    "a-look-controls": null,
+    "a-magicleap-controls": null,
+    "a-material": null,
+    "a-obj-model": null,
+    "a-oculus-go-controls": null,
+    "a-oculus-touch-controls": null,
+    "a-position": null,
+    "a-raycaster": null,
+    "a-rotation": null,
+    "a-scale": null,
+    "a-sound": null,
+    "a-text": null,
+    "a-tracked-controls": null,
+    "a-tracked-controls-webvr": null,
+    "a-tracked-controls-webxr": null,
+    "a-visible": null,
+    "a-valve-index-controls": null,
+    "a-vive-controls": null,
+    "a-vive-focus-controls": null,
+    "a-wasd-controls": null,
+    "a-windows-motion-controls": null,
+    "a-ar-hit-test": null,
+    "a-background": null,
+    "a-debug": null,
+    "a-device-orientation-permission-ui": null,
+    "a-embedded": null,
+    "a-inspector": null,
+    "a-fog": null,
+    "a-keyboard-shortcuts": null,
+    "a-pool": null,
+    "a-reflection": null,
+    "a-screenshot": null,
+    "a-stats": null,
+    "a-vr-mode-ui": null,
+    "a-pivot": null,
+    "a-change-color-on-hover": null,
+    "a-log": null,
+    "a-scene": null,
+    "a-entity": null
 } as const;
 
 export type PropTypes<U extends Record<string, keyof MapSchemaTypes>> = {
   -readonly [K in keyof U]?: MapSchemaTypes[U[K]]
 }
 
-export type MapSchema<T extends Record<string, SubMap>> = {
-  -readonly [K in keyof T]?: T[K] extends string ? MapSchemaTypes[T[K]] : PropTypes<T[K]>
+export type MapSchema<T extends Record<string, SubMap | keyof MapSchemaTypes>> = {
+  -readonly [K in keyof T]?: T[K] extends SubMap ? PropTypes<T[K]> : ( T[K] extends keyof MapSchemaTypes ? MapSchemaTypes[T[K]] : unknown )
+} & {
+  -readonly [K in keyof Element]?: Element[K]
 }
 
-export type EntityC = MapSchema<typeof types>;
-
-declare module 'aframe-react' {
-  export class Entity extends React.Component<EntityC> {};
-  export class Scene extends React.Component<any> {};
+declare global {
+  namespace JSX {
+    type IntrinsicElements = {
+      -readonly [K in keyof typeof aTypes]: MapSchema<typeof types>;
+    }
+  }
 }

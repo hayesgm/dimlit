@@ -3,6 +3,10 @@ const puppeteer = require('puppeteer');
 const fs = require('fs');
 
 function fileTemplate(components) {
+  let aNodes = Object.fromEntries(Object.keys(components).map((key) => ['a-' + key, null]));
+  aNodes['a-scene'] = null;
+  aNodes['a-entity'] = null;
+
   return `export type SubMap = Record<string, keyof MapSchemaTypes>;
 export type ObjectMap = Record<string, SubMap>;
 export type MapSchemaTypes = {
@@ -23,19 +27,24 @@ export type MapSchemaTypes = {
 
 export const types = ${JSON.stringify(components, null, 4)} as const;
 
+export const aTypes = ${JSON.stringify(aNodes, null, 4)} as const;
+
 export type PropTypes<U extends Record<string, keyof MapSchemaTypes>> = {
   -readonly [K in keyof U]?: MapSchemaTypes[U[K]]
 }
 
-export type MapSchema<T extends Record<string, SubMap>> = {
-  -readonly [K in keyof T]?: T[K] extends string ? MapSchemaTypes[T[K]] : PropTypes<T[K]>
+export type MapSchema<T extends Record<string, SubMap | keyof MapSchemaTypes>> = {
+  -readonly [K in keyof T]?: T[K] extends SubMap ? PropTypes<T[K]> : ( T[K] extends keyof MapSchemaTypes ? MapSchemaTypes[T[K]] : unknown )
+} & {
+  -readonly [K in keyof Element]?: Element[K]
 }
 
-export type EntityC = MapSchema<typeof types>;
-
-declare module 'aframe-react' {
-  export class Entity extends React.Component<EntityC> {};
-  export class Scene extends React.Component<any> {};
+declare global {
+  namespace JSX {
+    type IntrinsicElements = {
+      -readonly [K in keyof typeof aTypes]: MapSchema<typeof types>;
+    }
+  }
 }
 `;
 }
@@ -99,5 +108,5 @@ declare module 'aframe-react' {
   console.log(Object.entries(components).map(([name, value]) => [name, value.schema]));
   console.log(Object.entries(shaders).map(([name, value]) => [name, value.schema]));
   await browser.close();
-  fs.writeFileSync('types/aframe-react/index.d.ts', fileTemplate(mapped));
+  fs.writeFileSync('types/jsx/index.d.ts', fileTemplate(mapped));
 })();
