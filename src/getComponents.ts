@@ -1,5 +1,5 @@
-import "./components";
-import { components, shaders } from "aframe";
+import './components';
+import { components, primitives, shaders } from 'aframe';
 
 declare global {
   interface Window {
@@ -7,4 +7,4 @@ declare global {
   }
 }
 
-window.AFrame = { components, shaders };
+window.AFrame = { components, primitives, shaders };

@@ -1,8 +1,18 @@
+let elementMap: Map<string, HTMLElement> = new Map();
 
+// Allow searching of elements not yet in document
+let getElementById_ = document.getElementById;
+document.getElementById = function(id: string) {
+  if (elementMap.has(id)) {
+    return elementMap.get(id)!;
+  } else {
+    return getElementById_.call(document, id);
+  }
+}
 
 const appendChild = (
   parent: HTMLElement,
-  child: HTMLElement | HTMLElement[]
+  child: HTMLElement | HTMLElement[] | string
 ) => {
   if (Array.isArray(child)) {
     child.forEach((nestedChild) => appendChild(parent, nestedChild));
@@ -24,8 +34,12 @@ export const createElement = (
     if (name.startsWith("on") && name.toLowerCase() in window) {
       element.addEventListener(name.toLowerCase().substr(2), value);
     } else {
-      console.log("Setting attribute: ", name, value)
-      element.setAttribute(name, value);
+      if (name === 'id') {
+        element.id = value;
+        elementMap.set(value, element);
+      } else {
+        element.setAttribute(name, value);
+      }
     }
   });
 
