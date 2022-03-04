@@ -122,8 +122,14 @@ export const types = {
     "opacity": "number"
   },
   "shadow": {
+    "opacity": "number",
+    "transparent": "boolean",
+    "alphaToCoverage": "boolean",
     "cast": "boolean",
-    "receive": "boolean"
+    "receive": "boolean",
+    "enabled": "boolean",
+    "autoUpdate": "boolean",
+    "type": "string"
   },
   "animation": {
     "autoplay": "boolean",
@@ -190,7 +196,15 @@ export const types = {
     "orientationOffset": "vec3",
     "disabled": "boolean"
   },
-  "gltf-model": "model",
+  "gltf-model": {
+    "0": "m",
+    "1": "o",
+    "2": "d",
+    "3": "e",
+    "4": "l",
+    "dracoDecoderPath": "string",
+    "meshoptDecoderPath": "string"
+  },
   "hand-tracking-controls": {
     "hand": "string",
     "modelStyle": "string",
@@ -242,7 +256,8 @@ export const types = {
     "shadowCameraVisible": "boolean",
     "shadowMapHeight": "number",
     "shadowMapWidth": "number",
-    "shadowRadius": "number"
+    "shadowRadius": "number",
+    "defaultLightsEnabled": "boolean"
   },
   "line": {
     "start": "vec3",
@@ -349,7 +364,12 @@ export const types = {
     "controllerType": "string",
     "orientationOffset": "vec3"
   },
-  "position": "vec3",
+  "position": {
+    "0": "v",
+    "1": "e",
+    "2": "c",
+    "3": "3"
+  },
   "raycaster": {
     "autoRefresh": "boolean",
     "direction": "vec3",
@@ -364,8 +384,18 @@ export const types = {
     "lineOpacity": "number",
     "useWorldCoordinates": "boolean"
   },
-  "rotation": "vec3",
-  "scale": "vec3",
+  "rotation": {
+    "0": "v",
+    "1": "e",
+    "2": "c",
+    "3": "3"
+  },
+  "scale": {
+    "0": "v",
+    "1": "e",
+    "2": "c",
+    "3": "3"
+  },
   "sound": {
     "autoplay": "boolean",
     "distanceModel": "string",
@@ -434,7 +464,15 @@ export const types = {
     "index": "int",
     "iterateControllerProfiles": "boolean"
   },
-  "visible": "boolean",
+  "visible": {
+    "0": "b",
+    "1": "o",
+    "2": "o",
+    "3": "l",
+    "4": "e",
+    "5": "a",
+    "6": "n"
+  },
   "valve-index-controls": {
     "hand": "string",
     "buttonColor": "color",
@@ -486,7 +524,15 @@ export const types = {
     "color": "color",
     "transparent": "boolean"
   },
-  "debug": "boolean",
+  "debug": {
+    "0": "b",
+    "1": "o",
+    "2": "o",
+    "3": "l",
+    "4": "e",
+    "5": "a",
+    "6": "n"
+  },
   "device-orientation-permission-ui": {
     "enabled": "boolean",
     "deviceMotionMessage": "string",
@@ -495,7 +541,15 @@ export const types = {
     "allowButtonText": "string",
     "cancelButtonText": "string"
   },
-  "embedded": "boolean",
+  "embedded": {
+    "0": "b",
+    "1": "o",
+    "2": "o",
+    "3": "l",
+    "4": "e",
+    "5": "a",
+    "6": "n"
+  },
   "inspector": {
     "url": "string"
   },
@@ -524,17 +578,183 @@ export const types = {
     "height": "number",
     "camera": "selector"
   },
-  "stats": "boolean",
+  "stats": {
+    "0": "b",
+    "1": "o",
+    "2": "o",
+    "3": "l",
+    "4": "e",
+    "5": "a",
+    "6": "n"
+  },
   "vr-mode-ui": {
     "enabled": "boolean",
     "enterVRButton": "string",
     "enterARButton": "string"
   },
-  "pivot": "vec3",
+  "pivot": {
+    "0": "v",
+    "1": "e",
+    "2": "c",
+    "3": "3"
+  },
+  "velocity": {
+    "0": "v",
+    "1": "e",
+    "2": "c",
+    "3": "3"
+  },
+  "ammo-body": {
+    "loadedEvent": "string",
+    "mass": "number",
+    "gravity": "vec3",
+    "linearDamping": "number",
+    "angularDamping": "number",
+    "linearSleepingThreshold": "number",
+    "angularSleepingThreshold": "number",
+    "angularFactor": "vec3",
+    "activationState": "string",
+    "type": "string",
+    "emitCollisionEvents": "boolean",
+    "disableCollision": "boolean",
+    "collisionFilterGroup": "number",
+    "collisionFilterMask": "number",
+    "scaleAutoUpdate": "boolean"
+  },
+  "body": {
+    "mass": "number",
+    "linearDamping": "number",
+    "angularDamping": "number",
+    "shape": "string",
+    "cylinderAxis": "string",
+    "sphereRadius": "number",
+    "type": "string"
+  },
+  "dynamic-body": {
+    "mass": "number",
+    "linearDamping": "number",
+    "angularDamping": "number",
+    "shape": "string",
+    "cylinderAxis": "string",
+    "sphereRadius": "number",
+    "type": "string"
+  },
+  "static-body": {
+    "mass": "number",
+    "linearDamping": "number",
+    "angularDamping": "number",
+    "shape": "string",
+    "cylinderAxis": "string",
+    "sphereRadius": "number",
+    "type": "string"
+  },
+  "shape": {
+    "shape": "string",
+    "offset": "vec3",
+    "orientation": "vec4",
+    "radius": "number",
+    "halfExtents": "vec3",
+    "radiusTop": "number",
+    "radiusBottom": "number",
+    "height": "number",
+    "numSegments": "int"
+  },
+  "ammo-shape": {
+    "type": "string",
+    "fit": "string",
+    "halfExtents": "vec3",
+    "minHalfExtent": "number",
+    "maxHalfExtent": "number",
+    "sphereRadius": "number",
+    "cylinderAxis": "string",
+    "margin": "number",
+    "offset": "vec3",
+    "orientation": "vec4",
+    "heightfieldData": "array",
+    "heightfieldDistance": "number",
+    "includeInvisible": "boolean"
+  },
+  "ammo-constraint": {
+    "type": "string",
+    "target": "selector",
+    "pivot": "vec3",
+    "targetPivot": "vec3",
+    "axis": "vec3",
+    "targetAxis": "vec3"
+  },
+  "constraint": {
+    "type": "string",
+    "target": "selector",
+    "maxForce": "number",
+    "collideConnected": "boolean",
+    "wakeUpBodies": "boolean",
+    "distance": "number",
+    "pivot": "vec3",
+    "targetPivot": "vec3",
+    "axis": "vec3",
+    "targetAxis": "vec3"
+  },
+  "spring": {
+    "target": "selector",
+    "restLength": "number",
+    "stiffness": "number",
+    "damping": "number",
+    "localAnchorA": "vec3",
+    "localAnchorB": "vec3"
+  },
   "change-color-on-hover": {
     "color": "string"
   },
-  "log": "string"
+  "log": {
+    "0": "s",
+    "1": "t",
+    "2": "r",
+    "3": "i",
+    "4": "n",
+    "5": "g"
+  },
+  "renderer": {
+    "antialias": "string",
+    "highRefreshRate": "boolean",
+    "logarithmicDepthBuffer": "string",
+    "maxCanvasWidth": "number",
+    "maxCanvasHeight": "number",
+    "physicallyCorrectLights": "boolean",
+    "precision": "string",
+    "sortObjects": "boolean",
+    "colorManagement": "boolean",
+    "gammaOutput": "boolean",
+    "alpha": "boolean",
+    "foveationLevel": "number"
+  },
+  "webxr": {
+    "referenceSpaceType": "string",
+    "requiredFeatures": "array",
+    "optionalFeatures": "array",
+    "overlayElement": "selector"
+  },
+  "physics": {
+    "driver": "string",
+    "networkUrl": "string",
+    "workerFps": "number",
+    "workerInterpolate": "boolean",
+    "workerInterpBufferSize": "number",
+    "workerEngine": "string",
+    "workerDebug": "boolean",
+    "gravity": "number",
+    "iterations": "number",
+    "friction": "number",
+    "restitution": "number",
+    "contactEquationStiffness": "number",
+    "contactEquationRelaxation": "number",
+    "frictionEquationStiffness": "number",
+    "frictionEquationRegularization": "number",
+    "maxInterval": "number",
+    "debug": "boolean",
+    "debugDrawMode": "number",
+    "maxSubSteps": "number",
+    "fixedTimeStep": "number"
+  }
 } as const;
 
 export const aTypes = {

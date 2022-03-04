@@ -1,3 +1,5 @@
+import { utils } from 'aframe';
+
 let elementMap: Map<string, HTMLElement> = new Map();
 
 // Allow searching of elements not yet in document
@@ -38,7 +40,12 @@ export const createElement = (
         element.id = value;
         elementMap.set(value, element);
       } else {
-        element.setAttribute(name, value);
+        if (name === 'physics') {
+          value = utils.styleParser.stringify(value);
+          console.log({name, value});
+        }
+        // element.setAttribute(name, value);
+        utils.entity.setComponentProperty(element, name, value);
       }
     }
   });
