@@ -598,109 +598,24 @@ export const types = {
     "2": "c",
     "3": "3"
   },
-  "velocity": {
-    "0": "v",
-    "1": "e",
-    "2": "c",
-    "3": "3"
-  },
-  "ammo-body": {
-    "loadedEvent": "string",
-    "mass": "number",
-    "gravity": "vec3",
-    "linearDamping": "number",
-    "angularDamping": "number",
-    "linearSleepingThreshold": "number",
-    "angularSleepingThreshold": "number",
-    "angularFactor": "vec3",
-    "activationState": "string",
-    "type": "string",
-    "emitCollisionEvents": "boolean",
-    "disableCollision": "boolean",
-    "collisionFilterGroup": "number",
-    "collisionFilterMask": "number",
-    "scaleAutoUpdate": "boolean"
-  },
   "body": {
-    "mass": "number",
-    "linearDamping": "number",
-    "angularDamping": "number",
+    "static": "boolean",
+    "linVel": "vec3",
+    "angVel": "vec3",
+    "linDamp": "number",
+    "angDamp": "number",
+    "gravityScale": "number",
+    "canSleep": "boolean",
+    "ccd": "boolean"
+  },
+  "collider": {
     "shape": "string",
-    "cylinderAxis": "string",
-    "sphereRadius": "number",
-    "type": "string"
-  },
-  "dynamic-body": {
-    "mass": "number",
-    "linearDamping": "number",
-    "angularDamping": "number",
-    "shape": "string",
-    "cylinderAxis": "string",
-    "sphereRadius": "number",
-    "type": "string"
-  },
-  "static-body": {
-    "mass": "number",
-    "linearDamping": "number",
-    "angularDamping": "number",
-    "shape": "string",
-    "cylinderAxis": "string",
-    "sphereRadius": "number",
-    "type": "string"
-  },
-  "shape": {
-    "shape": "string",
-    "offset": "vec3",
-    "orientation": "vec4",
-    "radius": "number",
-    "halfExtents": "vec3",
-    "radiusTop": "number",
-    "radiusBottom": "number",
-    "height": "number",
-    "numSegments": "int"
-  },
-  "ammo-shape": {
-    "type": "string",
-    "fit": "string",
-    "halfExtents": "vec3",
-    "minHalfExtent": "number",
-    "maxHalfExtent": "number",
-    "sphereRadius": "number",
-    "cylinderAxis": "string",
-    "margin": "number",
-    "offset": "vec3",
-    "orientation": "vec4",
-    "heightfieldData": "array",
-    "heightfieldDistance": "number",
-    "includeInvisible": "boolean"
-  },
-  "ammo-constraint": {
-    "type": "string",
-    "target": "selector",
-    "pivot": "vec3",
-    "targetPivot": "vec3",
-    "axis": "vec3",
-    "targetAxis": "vec3"
-  },
-  "constraint": {
-    "type": "string",
-    "target": "selector",
-    "maxForce": "number",
-    "collideConnected": "boolean",
-    "wakeUpBodies": "boolean",
-    "distance": "number",
-    "pivot": "vec3",
-    "targetPivot": "vec3",
-    "axis": "vec3",
-    "targetAxis": "vec3"
-  },
-  "spring": {
-    "target": "selector",
-    "restLength": "number",
-    "stiffness": "number",
-    "damping": "number",
-    "localAnchorA": "vec3",
-    "localAnchorB": "vec3"
+    "wrap": "boolean",
+    "density": "number",
+    "friction": "number",
+    "restitution": "number",
+    "restitutionCombineRule": "string",
+    "sensor": "boolean"
   },
   "change-color-on-hover": {
     "color": "string"
@@ -733,27 +648,9 @@ export const types = {
     "optionalFeatures": "array",
     "overlayElement": "selector"
   },
-  "physics": {
-    "driver": "string",
-    "networkUrl": "string",
-    "workerFps": "number",
-    "workerInterpolate": "boolean",
-    "workerInterpBufferSize": "number",
-    "workerEngine": "string",
-    "workerDebug": "boolean",
-    "gravity": "number",
-    "iterations": "number",
-    "friction": "number",
-    "restitution": "number",
-    "contactEquationStiffness": "number",
-    "contactEquationRelaxation": "number",
-    "frictionEquationStiffness": "number",
-    "frictionEquationRegularization": "number",
-    "maxInterval": "number",
+  "rapier-physics": {
     "debug": "boolean",
-    "debugDrawMode": "number",
-    "maxSubSteps": "number",
-    "fixedTimeStep": "number"
+    "paused": "boolean"
   }
 } as const;
 

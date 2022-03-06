@@ -4,14 +4,15 @@
   "main": "dist/dimlit.js",
   "license": "MIT",
   "dependencies": {
-    "aframe": "^1.3.0"
+    "aframe": "^1.3.0",
+    "aframe-rapier": "link:../aframe-rapier"
   },
   "devDependencies": {
     "@types/aframe": "^1.2.0",
     "@types/jsdom": "^16.2.14",
     "esbuild": "^0.14.24",
     "jsdom": "^19.0.0",
-    "three": "^0.138.2",
+    "ts-node": "^10.6.0",
     "typescript": "^4.5.5",
     "xmlhttprequest": "^1.8.0"
   },
@@ -19,11 +20,14 @@
     "dev": "cp -rp public/* dist && esbuild src/index.tsx --bundle --sourcemap --servedir=dist --outfile=dist/dimlit.js",
     "build": "cp -rp public/* dist && esbuild src/index.tsx --bundle --minify --sourcemap --outfile=dist/dimlit.js",
     "deploy": "aws s3 sync --exclude .DS_Store dist s3://dimlit.space",
-    "types": "esbuild src/getComponents.ts --bundle --outfile=dist/getComponents.js && node ./generateTypes.js"
+    "types": "ts-node ./generateTypes.ts"
   },
   "prettier": {
     "tabWidth": 2,
     "singleQuote": true,
-    "printWidth": 150
+    "printWidth": 120
+  },
+  "resolutions": {
+    "aframe-rapier/aframe": "^1.3.0"
   }
 }

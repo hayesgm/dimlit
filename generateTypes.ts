@@ -7,9 +7,20 @@ global.document = global.window.document;
 global.self = global.window;
 global.XMLHttpRequest = XMLHttpRequest;
 
-import { ObjectMap, Entity, Component, ComponentDescriptor, System, components, primitives, shaders, version, systems } from 'aframe';
+import {
+  ObjectMap,
+  Entity,
+  Component,
+  ComponentDescriptor,
+  System,
+  components,
+  primitives,
+  shaders,
+  version,
+  systems,
+} from 'aframe';
 import { writeFileSync } from 'fs';
-import './src/getComponents';
+import './src/components';
 
 type Components = ObjectMap<ComponentDescriptor<Component<any, System<any>>>>;
 
@@ -61,11 +72,7 @@ let systemMap = Object.fromEntries(
     return [name, system.prototype];
   })
 );
-let all = [
-  ...Object.entries(shaders),
-  ...Object.entries(components),
-  ...Object.entries(systemMap),
-];
+let all = [...Object.entries(shaders), ...Object.entries(components), ...Object.entries(systemMap)];
 
 let mapped = all.reduce<any>((acc, [k, v]: any) => {
   let schema = v.schema;
@@ -79,7 +86,7 @@ let mapped = all.reduce<any>((acc, [k, v]: any) => {
     ...acc,
     [k]: {
       ...(acc[k] || {}),
-      ...value
+      ...value,
     },
   };
 }, {});
@@ -89,6 +96,14 @@ mapped.material = {
   ...mapped.standard,
 };
 
-let allPrimitives = [...Object.keys(primitives.primitives), 'a-scene', 'a-entity', 'a-node', 'a-assets', 'a-asset-item', 'a-cubemap'];
+let allPrimitives = [
+  ...Object.keys(primitives.primitives),
+  'a-scene',
+  'a-entity',
+  'a-node',
+  'a-assets',
+  'a-asset-item',
+  'a-cubemap',
+];
 
 writeFileSync('types/jsx/index.d.ts', fileTemplate(mapped, allPrimitives));
