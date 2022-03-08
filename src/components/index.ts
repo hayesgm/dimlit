@@ -1,3 +1,5 @@
 import 'aframe-rapier';
-import './change-color-on-hover';
+import './grow-on-collision';
 import './log';
+import './movement';
+import './grabber';

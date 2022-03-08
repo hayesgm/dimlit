@@ -36,7 +36,7 @@ export const createElement = (tag: string, props: object, ...children: HTMLEleme
           console.log({ name, value });
         }
         // element.setAttribute(name, value);
-        utils.entity.setComponentProperty(element, name, value);
+        utils.entity.setComponentProperty(element, name, value === true ? {} : value);
       }
     }
   });

@@ -599,7 +599,8 @@ export const types = {
     "3": "3"
   },
   "body": {
-    "static": "boolean",
+    "type": "string",
+    "follow": "boolean",
     "linVel": "vec3",
     "angVel": "vec3",
     "linDamp": "number",
@@ -611,14 +612,19 @@ export const types = {
   "collider": {
     "shape": "string",
     "wrap": "boolean",
+    "size": "vec3",
+    "translation": "vec3",
     "density": "number",
     "friction": "number",
     "restitution": "number",
     "restitutionCombineRule": "string",
     "sensor": "boolean"
   },
-  "change-color-on-hover": {
-    "color": "string"
+  "track": {
+    "body": "selector"
+  },
+  "grow-on-collision": {
+    "factor": "number"
   },
   "log": {
     "0": "s",
@@ -628,6 +634,8 @@ export const types = {
     "4": "n",
     "5": "g"
   },
+  "movement": {},
+  "grabber": {},
   "renderer": {
     "antialias": "string",
     "highRefreshRate": "boolean",
@@ -650,7 +658,8 @@ export const types = {
   },
   "rapier-physics": {
     "debug": "boolean",
-    "paused": "boolean"
+    "paused": "boolean",
+    "autoSnap": "number"
   }
 } as const;
 
