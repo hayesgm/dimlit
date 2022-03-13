@@ -19,22 +19,24 @@ export const scene = () => (
       body={{ type: 'dynamic', ccd: true }}
       collider={{ shape: 'box', wrap: false, size: { x: 0.5, y: 1.6, z: 0.2 } }}
     >
-      <a-camera looks-controls>
-        <a-cursor />
-      </a-camera>
+      <a-camera looks-controls wasd-controls></a-camera>
       <a-entity
         id="left-hand"
-        hand-controls={{ hand: 'left', handModelStyle: 'highPoly' }}
+        //hand-controls={{ hand: 'left', handModelStyle: 'highPoly' }}
         body={{ type: 'position', follow: false }}
         collider={{ shape: 'ball', wrap: false, size: { x: 0.07, y: 0.07, z: 0.07 }, sensor: true }}
+        from-mesh
         grabber
+        position={{x: -0.5, y: 1, z: 0}}
       ></a-entity>
       <a-entity
         id="right-hand"
-        hand-controls={{ hand: 'right', handModelStyle: 'highPoly' }}
+        //hand-controls={{ hand: 'right', handModelStyle: 'highPoly' }}
         body={{ type: 'position', follow: false }}
         collider={{ shape: 'ball', wrap: false, size: { x: 0.07, y: 0.07, z: 0.07 }, sensor: true }}
+        from-mesh
         grabber
+        position={{x: 0.5, y: 1, z: 0}}
       ></a-entity>
     </a-entity>
     <a-sky material={{ color: '#6EBAA7' }}></a-sky>
@@ -59,14 +61,18 @@ export const scene = () => (
     }
     <a-entity
       id="ball"
-      body={{ ccd: true, linDamp: 0.3, type: 'position' }}
-      collider={{ shape: 'ball', density: 0.2, restitution: 0.7, restitutionCombineRule: 'max', sensor: true }}
+      body={{ ccd: true, linDamp: 0.3 }}
+      collider={{ shape: 'ball', density: 0.2, restitution: 0.7, restitutionCombineRule: 'max' }}
       gltf-model="#ball-model"
       scale={{ x: 0.01, y: 0.01, z: 0.01 }}
-      track={{body: "#right-hand"}}
+      position={{ x: -1, y: 3.5, z: 1.5 }}
+      // track={{ body: '#right-hand' }}
+      translation={{ x: 0, y: -12, z: 0 }}
     />
-    <a-entity
+    <a-box
+      geometry={{ width: 0.5, height: 1.5, depth: 0.5 }}
       body={{ type: 'static' }}
+      material={{ color: 'lightblue' }}
       position={{ x: -1, y: 1.5, z: 1.5 }}
       collider={{ wrap: false, size: { x: 0.5, y: 1.5, z: 0.5 } }}
     />

@@ -187,7 +187,10 @@ export const types = {
   "geometry": {
     "buffer": "boolean",
     "primitive": "string",
-    "skipCache": "boolean"
+    "skipCache": "boolean",
+    "width": "number",
+    "depth": "number",
+    "height": "number"
   },
   "generic-tracked-controller-controls": {
     "hand": "string",
@@ -364,12 +367,7 @@ export const types = {
     "controllerType": "string",
     "orientationOffset": "vec3"
   },
-  "position": {
-    "0": "v",
-    "1": "e",
-    "2": "c",
-    "3": "3"
-  },
+  "position": "vec3",
   "raycaster": {
     "autoRefresh": "boolean",
     "direction": "vec3",
@@ -384,18 +382,8 @@ export const types = {
     "lineOpacity": "number",
     "useWorldCoordinates": "boolean"
   },
-  "rotation": {
-    "0": "v",
-    "1": "e",
-    "2": "c",
-    "3": "3"
-  },
-  "scale": {
-    "0": "v",
-    "1": "e",
-    "2": "c",
-    "3": "3"
-  },
+  "rotation": "vec3",
+  "scale": "vec3",
   "sound": {
     "autoplay": "boolean",
     "distanceModel": "string",
@@ -464,15 +452,7 @@ export const types = {
     "index": "int",
     "iterateControllerProfiles": "boolean"
   },
-  "visible": {
-    "0": "b",
-    "1": "o",
-    "2": "o",
-    "3": "l",
-    "4": "e",
-    "5": "a",
-    "6": "n"
-  },
+  "visible": "boolean",
   "valve-index-controls": {
     "hand": "string",
     "buttonColor": "color",
@@ -524,15 +504,7 @@ export const types = {
     "color": "color",
     "transparent": "boolean"
   },
-  "debug": {
-    "0": "b",
-    "1": "o",
-    "2": "o",
-    "3": "l",
-    "4": "e",
-    "5": "a",
-    "6": "n"
-  },
+  "debug": "boolean",
   "device-orientation-permission-ui": {
     "enabled": "boolean",
     "deviceMotionMessage": "string",
@@ -541,15 +513,7 @@ export const types = {
     "allowButtonText": "string",
     "cancelButtonText": "string"
   },
-  "embedded": {
-    "0": "b",
-    "1": "o",
-    "2": "o",
-    "3": "l",
-    "4": "e",
-    "5": "a",
-    "6": "n"
-  },
+  "embedded": "boolean",
   "inspector": {
     "url": "string"
   },
@@ -578,26 +542,13 @@ export const types = {
     "height": "number",
     "camera": "selector"
   },
-  "stats": {
-    "0": "b",
-    "1": "o",
-    "2": "o",
-    "3": "l",
-    "4": "e",
-    "5": "a",
-    "6": "n"
-  },
+  "stats": "boolean",
   "vr-mode-ui": {
     "enabled": "boolean",
     "enterVRButton": "string",
     "enterARButton": "string"
   },
-  "pivot": {
-    "0": "v",
-    "1": "e",
-    "2": "c",
-    "3": "3"
-  },
+  "pivot": "vec3",
   "body": {
     "type": "string",
     "follow": "boolean",
@@ -621,21 +572,17 @@ export const types = {
     "sensor": "boolean"
   },
   "track": {
-    "body": "selector"
+    "body": "selector",
+    "relative": "vec3"
   },
+  "from-mesh": {},
   "grow-on-collision": {
     "factor": "number"
   },
-  "log": {
-    "0": "s",
-    "1": "t",
-    "2": "r",
-    "3": "i",
-    "4": "n",
-    "5": "g"
-  },
+  "log": "string",
   "movement": {},
   "grabber": {},
+  "translation": "vec3",
   "renderer": {
     "antialias": "string",
     "highRefreshRate": "boolean",

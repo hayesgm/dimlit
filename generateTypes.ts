@@ -76,25 +76,30 @@ let all = [...Object.entries(shaders), ...Object.entries(components), ...Object.
 
 let mapped = all.reduce<any>((acc, [k, v]: any) => {
   let schema = v.schema;
-  let value;
   if (typeof schema.type === 'string') {
-    value = schema.type;
+    return {
+      ...acc,
+      [k]: schema.type,
+    };
   } else {
-    value = Object.fromEntries(Object.entries(schema).map(([name, type]: any) => [name, type.type]));
+    let value = Object.fromEntries(Object.entries(schema).map(([name, type]: any) => [name, type.type]));
+    return {
+      ...acc,
+      [k]: {
+        ...(acc[k] || {}),
+        ...value,
+      },
+    };
   }
-  return {
-    ...acc,
-    [k]: {
-      ...(acc[k] || {}),
-      ...value,
-    },
-  };
 }, {});
 
 mapped.material = {
   ...mapped.material,
   ...mapped.standard,
 };
+mapped.geometry.width = 'number';
+mapped.geometry.depth = 'number';
+mapped.geometry.height = 'number';
 
 let allPrimitives = [
   ...Object.keys(primitives.primitives),
