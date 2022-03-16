@@ -24,7 +24,7 @@ export const scene = () => (
     <a-entity
       id="rig"
       movement
-      position={{ x: 0, y: 5, z: 4 }}
+      position={{ x: 0, y: 0.8, z: 4 }}
       body={{ type: 'dynamic', ccd: true }}
       collider={{ shape: 'box', wrap: false, size: { x: 0.5, y: 1.6, z: 0.2 } }}
     >
@@ -32,17 +32,17 @@ export const scene = () => (
       <a-entity
         id="left-hand"
         hand-controls={{ hand: 'left', handModelStyle: 'highPoly' }}
-        geometry={{primitive: 'sphere', radius: 0.035}}
-        body={{ type: 'position', follow: true }}
+        body={{ type: 'position', follow: false }}
         collider={{ shape: 'ball', wrap: false, size: { x: 0.07, y: 0.07, z: 0.07 }, sensor: true }}
+        from-mesh
         grabber
       ></a-entity>
       <a-entity
         id="right-hand"
-        geometry={{primitive: 'sphere', radius: 0.035}}
         hand-controls={{ hand: 'right', handModelStyle: 'highPoly' }}
-        body={{ type: 'position', follow: true }}
+        body={{ type: 'position', follow: false }}
         collider={{ shape: 'ball', wrap: false, size: { x: 0.07, y: 0.07, z: 0.07 }, sensor: true }}
+        from-mesh
         grabber
       ></a-entity>
     </a-entity>
@@ -77,10 +77,11 @@ export const scene = () => (
       translation={{ x: 0, y: -12, z: 0 }}
     />
     <a-box
+      id="pedistool"
       geometry={{ width: 0.5, height: 1.5, depth: 0.5 }}
       body={{ type: 'static' }}
       material={{ color: 'lightblue' }}
-      position={{ x: -1, y: 1.5, z: 1.5 }}
+      position={{ x: -1, y: 0.75, z: 1.5 }}
       collider={{ wrap: false, size: { x: 0.5, y: 1.5, z: 0.5 } }}
     />
     <a-entity light={{ type: 'point' }} position={{ x: 0, y: 4, z: 2 }} />

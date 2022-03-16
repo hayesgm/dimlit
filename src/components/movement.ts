@@ -15,6 +15,7 @@ class MovementComponent {
   intensity: number;
   time: number;
   impulse: boolean;
+  speed: number;
 
   constructor(el: Entity, data: MovementComponentData, body: Body.Body) {
     this.el = el;
@@ -31,6 +32,7 @@ class MovementComponent {
     this.attachKeyEventListeners();
     this.body.rigidBody.setAngularDamping(1000);
     this.impulse = data.impulse;
+    this.speed = data.speed;
   }
 
   static async initialize(el: Entity, data: MovementComponentData): Promise<MovementComponent> {
@@ -41,10 +43,10 @@ class MovementComponent {
     return new MovementComponent(el, data, body);
   }
 
-  move(dir: Utils.Vector.Vec3, time = 100, intensity = 0.14) {
+  move(dir: Utils.Vector.Vec3, intensity = 1.0, time = 100) {
     this.direction = dir;
-    this.time = time;
     this.intensity = intensity;
+    this.time = time;
   }
 
   attachKeyEventListeners() {
@@ -70,20 +72,20 @@ class MovementComponent {
     if (keyMap[key]) {
       event.preventDefault();
       event.stopPropagation();
-      this.move(keyMap[key], 100, 0.07);
+      this.move(keyMap[key]);
     }
   }
 
   jump(event: any) {
-    this.move({ x: 0, y: 1, z: 0 }, 100);
+    this.move({ x: 0, y: 1, z: 0 });
   }
 
   logThumbstick(event: any) {
     let vec = new Vector3(event.detail.x, 0, event.detail.y);
-    let speed = vec.length() * 0.07;
+    let intensity = vec.length();
     let dir = vec.normalize();
 
-    this.move(Utils.Vector.fromVector3(dir), 100, 0.07);
+    this.move(Utils.Vector.fromVector3(dir), intensity);
   }
 
   tick(time: number, delta: number) {
@@ -93,16 +95,16 @@ class MovementComponent {
     if (this.time > 0) {
       if (this.impulse) {
         let impulse = {
-          x: this.direction!.x * this.intensity,
-          y: this.direction!.y * this.intensity,
-          z: this.direction!.z * this.intensity,
+          x: this.direction!.x * this.intensity * this.speed,
+          y: this.direction!.y * this.intensity * this.speed,
+          z: this.direction!.z * this.intensity * this.speed,
         };
         this.body!.applyImpulse(impulse);
       } else {
         let movement = {
-          x: this.direction!.x * this.intensity,
-          y: this.direction!.y * this.intensity,
-          z: this.direction!.z * this.intensity,
+          x: this.direction!.x * this.intensity * this.speed,
+          y: this.direction!.y * this.intensity * this.speed,
+          z: this.direction!.z * this.intensity * this.speed,
         };
         this.body!.setNextPosition(Utils.Vector.add(this.body.position(), movement));
       }
@@ -116,7 +118,7 @@ class MovementComponent {
 
 registerAsyncComponent<MovementComponent, MovementComponentData>('movement', MovementComponent.initialize, {
   schema: {
-    speed: { type: 'number', default: 0.7 },
+    speed: { type: 'number', default: 0.07 },
     impulse: { type: 'boolean', default: true }
   },
 

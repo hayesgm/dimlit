@@ -34,11 +34,11 @@ registerComponent('grabber', {
 
     let handControls = document.querySelectorAll('[hand-controls]');
     handControls.forEach((handControl) => {
-      handControl.addEventListener('triggerdown', this.grip.bind(this));
-      handControl.addEventListener('triggerup', this.drop.bind(this));
+      handControl.addEventListener('gripdown', this.grip.bind(this));
+      handControl.addEventListener('gripup', this.drop.bind(this));
     });
-    window.addEventListener('mousedown', this.grip.bind(this));
-    window.addEventListener('mouseup', this.drop.bind(this));
+    // window.addEventListener('mousedown', this.grip.bind(this));
+    // window.addEventListener('mouseup', this.drop.bind(this));
   },
 
   handleCollision: async function (evt: CustomEvent<System.CollisionEvent>) {
