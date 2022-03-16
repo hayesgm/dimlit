@@ -13,30 +13,37 @@ export const scene = () => (
     </a-assets>
     <a-entity position={{ x: 0, y: 0.8, z: 3 }} />
     <a-entity
+        id="orb-hand"
+        geometry={{primitive: 'sphere', radius: 0.035}}
+        body={{ type: 'position', follow: true }}
+        collider={{ shape: 'ball', wrap: false, size: { x: 0.07, y: 0.07, z: 0.07 }, sensor: true }}
+        grabber
+        position={{x: -0.5, y: 2.3, z: 0}}
+        movement={{impulse: false, speed: 0.05}}
+      ></a-entity>
+    <a-entity
       id="rig"
       movement
-      position={{ x: 0, y: 1, z: 4 }}
+      position={{ x: 0, y: 5, z: 4 }}
       body={{ type: 'dynamic', ccd: true }}
       collider={{ shape: 'box', wrap: false, size: { x: 0.5, y: 1.6, z: 0.2 } }}
     >
       <a-camera looks-controls wasd-controls></a-camera>
       <a-entity
         id="left-hand"
-        //hand-controls={{ hand: 'left', handModelStyle: 'highPoly' }}
-        body={{ type: 'position', follow: false }}
+        hand-controls={{ hand: 'left', handModelStyle: 'highPoly' }}
+        geometry={{primitive: 'sphere', radius: 0.035}}
+        body={{ type: 'position', follow: true }}
         collider={{ shape: 'ball', wrap: false, size: { x: 0.07, y: 0.07, z: 0.07 }, sensor: true }}
-        from-mesh
         grabber
-        position={{x: -0.5, y: 1, z: 0}}
       ></a-entity>
       <a-entity
         id="right-hand"
-        //hand-controls={{ hand: 'right', handModelStyle: 'highPoly' }}
-        body={{ type: 'position', follow: false }}
+        geometry={{primitive: 'sphere', radius: 0.035}}
+        hand-controls={{ hand: 'right', handModelStyle: 'highPoly' }}
+        body={{ type: 'position', follow: true }}
         collider={{ shape: 'ball', wrap: false, size: { x: 0.07, y: 0.07, z: 0.07 }, sensor: true }}
-        from-mesh
         grabber
-        position={{x: 0.5, y: 1, z: 0}}
       ></a-entity>
     </a-entity>
     <a-sky material={{ color: '#6EBAA7' }}></a-sky>

@@ -190,7 +190,8 @@ export const types = {
     "skipCache": "boolean",
     "width": "number",
     "depth": "number",
-    "height": "number"
+    "height": "number",
+    "radius": "number"
   },
   "generic-tracked-controller-controls": {
     "hand": "string",
@@ -549,6 +550,7 @@ export const types = {
     "enterARButton": "string"
   },
   "pivot": "vec3",
+  "from-mesh": {},
   "body": {
     "type": "string",
     "follow": "boolean",
@@ -575,12 +577,11 @@ export const types = {
     "body": "selector",
     "relative": "vec3"
   },
-  "from-mesh": {},
-  "grow-on-collision": {
-    "factor": "number"
-  },
   "log": "string",
-  "movement": {},
+  "movement": {
+    "speed": "number",
+    "impulse": "boolean"
+  },
   "grabber": {},
   "translation": "vec3",
   "renderer": {

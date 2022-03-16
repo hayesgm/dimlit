@@ -100,6 +100,7 @@ mapped.material = {
 mapped.geometry.width = 'number';
 mapped.geometry.depth = 'number';
 mapped.geometry.height = 'number';
+mapped.geometry.radius = 'number';
 
 let allPrimitives = [
   ...Object.keys(primitives.primitives),

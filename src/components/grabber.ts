@@ -19,6 +19,7 @@ registerComponent('grabber', {
   body: null as null | Body.Body,
   eventListener: null as EventListener | null,
   collided: new Map<number, Entity>(),
+  gripping: new Set<Entity>(),
 
   init: async function () {
     this.data = Utils.Schema.fixSchema(this.data, this.schema as any);
@@ -34,7 +35,10 @@ registerComponent('grabber', {
     let handControls = document.querySelectorAll('[hand-controls]');
     handControls.forEach((handControl) => {
       handControl.addEventListener('triggerdown', this.grip.bind(this));
+      handControl.addEventListener('triggerup', this.drop.bind(this));
     });
+    window.addEventListener('mousedown', this.grip.bind(this));
+    window.addEventListener('mouseup', this.drop.bind(this));
   },
 
   handleCollision: async function (evt: CustomEvent<System.CollisionEvent>) {
@@ -63,7 +67,16 @@ registerComponent('grabber', {
       collidingEntity.setAttribute('body', 'type', 'position');
       collidingEntity.setAttribute('collider', 'sensor', true);
       collidingEntity.setAttribute('track', 'body', this.el);
+      this.gripping.add(collidingEntity);
       console.log("collidingEntity:post", collidingEntity)
+    }
+  },
+
+  drop: async function() {
+    for (let gripped of this.gripping.values()) {
+      gripped.setAttribute('body', 'type', 'dynamic');
+      gripped.setAttribute('collider', 'sensor', false);
+      gripped.setAttribute('track', 'body', null);
     }
   }
 });

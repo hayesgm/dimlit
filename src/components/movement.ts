@@ -4,6 +4,7 @@ const { Vector3 } = THREE;
 
 interface MovementComponentData {
   speed: number;
+  impulse: boolean;
 }
 
 class MovementComponent {
@@ -13,6 +14,7 @@ class MovementComponent {
   direction: Utils.Vector.Vec3;
   intensity: number;
   time: number;
+  impulse: boolean;
 
   constructor(el: Entity, data: MovementComponentData, body: Body.Body) {
     this.el = el;
@@ -28,6 +30,7 @@ class MovementComponent {
     this.time = 0;
     this.attachKeyEventListeners();
     this.body.rigidBody.setAngularDamping(1000);
+    this.impulse = data.impulse;
   }
 
   static async initialize(el: Entity, data: MovementComponentData): Promise<MovementComponent> {
@@ -53,7 +56,7 @@ class MovementComponent {
   }
 
   onKeyPress(event: KeyboardEvent) {
-    console.log("onKeyPress", this);
+    // console.log("onKeyPress", this);
     const keyMap: { [key: string]: Utils.Vector.Vec3 } = {
       G: { x: 0, y: 0, z: -1 },
       V: { x: 0, y: 0, z: 1 },
@@ -63,11 +66,11 @@ class MovementComponent {
     };
 
     let key = String.fromCharCode(event.keyCode);
-    console.log({key, code: event.keyCode});
+    // console.log({key, code: event.keyCode});
     if (keyMap[key]) {
       event.preventDefault();
       event.stopPropagation();
-      this.move(keyMap[key], 100, 0.14);
+      this.move(keyMap[key], 100, 0.07);
     }
   }
 
@@ -88,13 +91,21 @@ class MovementComponent {
       this.time = Math.max(this.time - delta, 0);
     }
     if (this.time > 0) {
-      let impulse = {
-        x: this.direction!.x * this.intensity,
-        y: this.direction!.y * this.intensity,
-        z: this.direction!.z * this.intensity,
-      };
-      console.log("impulse", impulse);
-      this.body!.applyImpulse(impulse);
+      if (this.impulse) {
+        let impulse = {
+          x: this.direction!.x * this.intensity,
+          y: this.direction!.y * this.intensity,
+          z: this.direction!.z * this.intensity,
+        };
+        this.body!.applyImpulse(impulse);
+      } else {
+        let movement = {
+          x: this.direction!.x * this.intensity,
+          y: this.direction!.y * this.intensity,
+          z: this.direction!.z * this.intensity,
+        };
+        this.body!.setNextPosition(Utils.Vector.add(this.body.position(), movement));
+      }
     }
   }
 
@@ -106,6 +117,7 @@ class MovementComponent {
 registerAsyncComponent<MovementComponent, MovementComponentData>('movement', MovementComponent.initialize, {
   schema: {
     speed: { type: 'number', default: 0.7 },
+    impulse: { type: 'boolean', default: true }
   },
 
   dependencies: ['body', 'collider'],
