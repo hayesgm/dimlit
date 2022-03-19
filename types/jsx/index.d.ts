@@ -573,6 +573,10 @@ export const types = {
     "restitutionCombineRule": "string",
     "sensor": "boolean"
   },
+  "joint": {
+    "type": "string",
+    "target": "selector"
+  },
   "track": {
     "body": "selector",
     "relative": "vec3"
@@ -582,7 +586,10 @@ export const types = {
     "speed": "number",
     "impulse": "boolean"
   },
-  "grabber": {},
+  "grabber": {
+    "mouse": "boolean"
+  },
+  "grabbable": {},
   "translation": "vec3",
   "renderer": {
     "antialias": "string",

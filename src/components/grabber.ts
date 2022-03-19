@@ -2,9 +2,10 @@ import { Entity, THREE, registerComponent } from 'aframe';
 import { Body, Utils, System } from 'aframe-rapier';
 import { Mesh, MeshStandardMaterial, Object3D } from 'super-three';
 const { Vector3, Quaternion } = THREE;
+import { debug } from '../debug';
 
 function asArray<T>(x: T | T[]): T[] {
-  return Array.isArray(x) ? x : [ x ];
+  return Array.isArray(x) ? x : [x];
 }
 
 const off = [0, 0, 0] as const;
@@ -12,7 +13,9 @@ const litUp = [0.3, 0.3, 0.3] as const;
 const red = [1, 0, 0] as const;
 
 registerComponent('grabber', {
-  schema: {},
+  schema: {
+    mouse: { type: 'boolean', default: false },
+  },
 
   dependencies: ['body'],
 
@@ -32,20 +35,23 @@ registerComponent('grabber', {
     this.el.addEventListener('collide', this.handleCollision.bind(this) as unknown as EventListener);
     this.el.addEventListener('separate', this.handleSeparation.bind(this) as unknown as EventListener);
 
-    let handControls = document.querySelectorAll('[hand-controls]');
-    handControls.forEach((handControl) => {
-      handControl.addEventListener('gripdown', this.grip.bind(this));
-      handControl.addEventListener('gripup', this.drop.bind(this));
-    });
-    // window.addEventListener('mousedown', this.grip.bind(this));
-    // window.addEventListener('mouseup', this.drop.bind(this));
+    if (this.data.mouse) {
+      window.addEventListener('mousedown', this.grip.bind(this));
+      window.addEventListener('mouseup', this.drop.bind(this));
+    } else {
+      let handControls = document.querySelectorAll('[hand-controls]');
+      handControls.forEach((handControl) => {
+        handControl.addEventListener('triggerdown', this.grip.bind(this));
+        handControl.addEventListener('triggerup', this.drop.bind(this));
+      });
+    }
   },
 
   handleCollision: async function (evt: CustomEvent<System.CollisionEvent>) {
     let {
       detail: { collidingEntity, selfCollider, otherCollider },
     } = evt;
-    if (!this.collided.has(otherCollider)) {
+    if (!this.collided.has(otherCollider) && collidingEntity.hasAttribute('grabbable')) {
       setEmissive(collidingEntity.getObject3D('mesh'), ...litUp);
       this.collided.set(otherCollider, collidingEntity);
     }
@@ -59,26 +65,30 @@ registerComponent('grabber', {
     setEmissive(collidingEntity.getObject3D('mesh'), ...off);
   },
 
-  grip: async function() {
+  grip: async function () {
+    debug(`grip ${this.collided.size}`);
     for (let [colliderHandle, collidingEntity] of this.collided.entries()) {
       // collidingEntity
       // TODO: The hard thing, convert the body into a tracker!
-      console.log("collidingEntity:pre", collidingEntity)
-      collidingEntity.setAttribute('body', 'type', 'position');
-      collidingEntity.setAttribute('collider', 'sensor', true);
-      collidingEntity.setAttribute('track', 'body', this.el);
+      console.log('collidingEntity:pre', collidingEntity);
+
+      collidingEntity.setAttribute('joint', { type: 'spherical', target: this.el });
+      collidingEntity.setAttribute('collider', { collisionGroups: 0 });
+      // collidingEntity.setAttribute('collider', 'sensor', true);
+      // collidingEntity.setAttribute('track', 'body', this.el);
       this.gripping.add(collidingEntity);
-      console.log("collidingEntity:post", collidingEntity)
+      console.log('collidingEntity:post', collidingEntity);
+      // console.log("collidingEntity:post", collidingEntity.components.collider.data.collisionGroups)
     }
   },
 
-  drop: async function() {
+  drop: async function () {
+    debug('drop');
     for (let gripped of this.gripping.values()) {
-      gripped.setAttribute('body', 'type', 'dynamic');
-      gripped.setAttribute('collider', 'sensor', false);
-      gripped.setAttribute('track', 'body', null);
+      gripped.removeAttribute('joint');
+      gripped.setAttribute('collider', { collisionGroups: 0xffffffff });
     }
-  }
+  },
 });
 
 function setEmissive(object: Object3D, r: number, g: number, b: number) {
@@ -88,7 +98,6 @@ function setEmissive(object: Object3D, r: number, g: number, b: number) {
 
   if (object.hasOwnProperty('material')) {
     for (let material of asArray((object as Mesh).material)) {
-      console.log("setting emissive");
       (material as MeshStandardMaterial).emissive.setRGB(r, g, b);
     }
   }
