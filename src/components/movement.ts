@@ -25,7 +25,9 @@ class MovementComponent {
     let handControls = document.querySelectorAll('[hand-controls]');
     handControls.forEach((handControl) => {
       handControl.addEventListener('thumbstickmoved', this.logThumbstick.bind(this));
-      // handControl.addEventListener('triggerdown', this.jump.bind(this));
+      if (handControl.id === 'left-hand') {
+        handControl.addEventListener('triggerdown', this.jump.bind(this));
+      }
     });
     this.body = body;
     this.intensity = 0;
