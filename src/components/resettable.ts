@@ -28,8 +28,9 @@ class ResettableComponent {
   reset() {
     console.log("resetting inner", this.body, this.position);
     if (this.body && this.position) {
-      debug(`resetting ${this.el.id}`);
+      debug(`resetting ${this.el.id} and lin vel`);
       this.body.setPosition(this.position);
+      this.body.rigidBody.setAngvel({x: 0, y: 0, z: 0}, false);
       this.body.rigidBody.setLinvel({x: 0, y: 0, z: 0}, true);
     }
   }
