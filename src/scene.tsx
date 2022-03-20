@@ -17,7 +17,8 @@ export const scene = () => (
       body={{ type: 'position', follow: true }}
       collider={{ shape: 'ball', wrap: false, size: { x: 0.07, y: 0.07, z: 0.07 }, sensor: true }}
       grabber={{ mouse: true }}
-      position={{ x: -0.5, y: 1.7, z: 0 }}
+      // position={{ x: -0.5, y: 1.7, z: 0 }}
+      position={{ x: -1, y: 1.65, z: 1.5 }}
       movement={{ impulse: false, speed: 0.02 }}
     ></a-entity>
     <a-entity
@@ -31,10 +32,10 @@ export const scene = () => (
       <a-entity
         id="left-hand"
         hand-controls={{ hand: 'left', handModelStyle: 'highPoly' }}
+        left-controls
         body={{ type: 'position', follow: false }}
         collider={{ shape: 'ball', wrap: false, size: { x: 0.07, y: 0.07, z: 0.07 }, sensor: true }}
         from-mesh
-        grabber
       ></a-entity>
       <a-entity
         id="right-hand"
@@ -56,28 +57,49 @@ export const scene = () => (
       position={{ x: 0, y: 0, z: 0 }}
       rotation={{ x: -90, y: 0, z: 0 }}
     />
-    {
-      <a-entity
-        id="hoop"
-        body={{ ccd: true }}
-        collider={{ shape: 'box', density: 4 }}
-        gltf-model="#hoop-model"
-        scale={{ x: 0.01, y: 0.01, z: 0.01 }}
-        rotation={{ x: 0, y: 180, z: 0 }}
-        position={{ x: 0, y: 0, z: -3 }}
-        grabbable
-      />
-    }
+    <a-entity
+      id="hoop"
+      body={{ ccd: true }}
+      collider={{ shape: 'box', density: 4 }}
+      gltf-model="#hoop-model"
+      scale={{ x: 0.01, y: 0.01, z: 0.01 }}
+      rotation={{ x: 0, y: 180, z: 0 }}
+      position={{ x: 0, y: 0, z: -3 }}
+      grabbable
+      cull={{ asset: ['Ring', 'Net'] }}
+    />
+    <a-entity
+      id="rim"
+      body={{ ccd: true }}
+      collider={{ shape: 'box', density: 4, size: { x: 0.3, y: 0.1, z: 0.03 }, wrap: false }}
+      gltf-model="#hoop-model"
+      scale={{ x: 0.01, y: 0.01, z: 0.01 }}
+      cull={{ asset: ['Ring'], keep: true }}
+      position={{ x: 0, y: 3, z: -1 }}
+      rotation={{ x: 0, y: 180, z: 0 }}
+      joint={{ type: 'spherical', target: '#hoop', anchor1: { x: 0, y: 0, z: 0.3 }, anchor2: { x: 0, y: 3, z: -1.3 } }}
+      translation={{ x: 0, y: -300, z: 160 }}
+    />
+    <a-entity
+      id="net"
+      body={{ ccd: true }}
+      collider={{ shape: 'box', density: 4 }}
+      gltf-model="#hoop-model"
+      scale={{ x: 0.01, y: 0.01, z: 0.01 }}
+      cull={{ asset: ['Net'], keep: true }}
+      translation={{ x: 0, y: -300, z: 0 }}
+    />
     <a-entity
       id="ball"
-      body={{ ccd: true, linDamp: 0.3 }}
+      body={{ ccd: true, linDamp: 0.3, canSleep: false }}
       collider={{ shape: 'ball', density: 0.2, restitution: 0.7, restitutionCombineRule: 'max' }}
       gltf-model="#ball-model"
       scale={{ x: 0.01, y: 0.01, z: 0.01 }}
       position={{ x: -1, y: 3.5, z: 1.5 }}
+      resettable
       // track={{ body: '#right-hand' }}
       translation={{ x: 0, y: -12, z: 0 }}
-      grabbable
+      grabbable={{ oomph: 2.0 }}
     />
     <a-box
       id="pedistool"
@@ -90,9 +112,8 @@ export const scene = () => (
     <a-entity light={{ type: 'point' }} position={{ x: 0, y: 4, z: 2 }} />
     <a-entity
       id="debugger"
-      text={{ value: `Version: ${version}`, color: 'green' }}
-      position={{ x: 0, y: 1, z: -1 }}
-      scale={{ x: 2, y: 2, z: 2 }}
+      text={{ value: `Version: ${version}`, color: 'green', height: 10, width: 2, baseline: 'bottom' }}
+      position={{ x: -2, y: 1, z: -1 }}
     />
   </a-scene>
 );

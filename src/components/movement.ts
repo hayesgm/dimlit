@@ -1,6 +1,7 @@
 import { Component, ComponentDefinition, Entity, registerComponent, THREE } from 'aframe';
 import { registerAsyncComponent, Body, Utils } from 'aframe-rapier';
 const { Vector3 } = THREE;
+import { resetAll } from './resettable';
 
 interface MovementComponentData {
   speed: number;
@@ -57,7 +58,7 @@ class MovementComponent {
     window.removeEventListener('keydown', this.onKeyPress);
   }
 
-  onKeyPress(event: KeyboardEvent) {
+  async onKeyPress(event: KeyboardEvent) {
     // console.log("onKeyPress", this);
     const keyMap: { [key: string]: Utils.Vector.Vec3 } = {
       G: { x: 0, y: 0, z: -1 },
@@ -73,6 +74,16 @@ class MovementComponent {
       event.preventDefault();
       event.stopPropagation();
       this.move(keyMap[key]);
+    }
+
+    // TODO: Generic key framework?
+    if (key === '1') {
+      let body = await Body.getBody(document.getElementById('ball') as Entity);
+      body!.rigidBody.setLinvel({x: 3, y: 0, z: 0}, true);
+    }
+
+    if (key === 'R') {
+      resetAll();
     }
   }
 

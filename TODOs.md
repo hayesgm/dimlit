@@ -7,6 +7,10 @@ Basically our physics system sees all objects in world space (it needs to!), but
 
 We need to build joints between objects, since it might displace a number of misused features (e.g. "Tracking") that can/should be removed if joints can accomplish the same goal. Preferably joints are used heavily in a variety of use-cases, such as with parent-child bodies above.
 
+### World Anchors
+
+We should consider allowing the users to specify that anchors exist in world coordinates, as opposed to local coordinates. This can otherwise get confusion with say rotations, e.g. when an object is flipped.
+
 ## Global Sync
 
 If we ever want to have multiplayer, we need to have a global feed system that feeds commands into a reduction loop that outputs a global state and then that state can be rendered on the client and occausionally updated from the server. This will probably need a vector clock of some variety, but possibly a simple clock would work. The problem here is all of the times that we just take things at their word and change state based on that. _Everything_ needs to be run through the global decider. Luckily, Rapier has determinisitic mode and snapshots, which should make that part fairly easy to sync.

@@ -571,17 +571,28 @@ export const types = {
     "friction": "number",
     "restitution": "number",
     "restitutionCombineRule": "string",
-    "sensor": "boolean"
+    "sensor": "boolean",
+    "collisionGroups": "number"
   },
   "joint": {
     "type": "string",
-    "target": "selector"
+    "target": "selector",
+    "anchor1": "vec3",
+    "anchor2": "vec3",
+    "frame1": "vec4",
+    "frame2": "vec4",
+    "axis": "vec3"
   },
   "track": {
     "body": "selector",
     "relative": "vec3"
   },
   "log": "string",
+  "cull": {
+    "asset": "array",
+    "keep": "boolean"
+  },
+  "resettable": {},
   "movement": {
     "speed": "number",
     "impulse": "boolean"
@@ -589,8 +600,11 @@ export const types = {
   "grabber": {
     "mouse": "boolean"
   },
-  "grabbable": {},
+  "grabbable": {
+    "oomph": "number"
+  },
   "translation": "vec3",
+  "left-controls": {},
   "renderer": {
     "antialias": "string",
     "highRefreshRate": "boolean",

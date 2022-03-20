@@ -14,7 +14,6 @@ registerComponent('translation', {
       let group = new Group();
       group.position.set(pos.x, pos.y, pos.z);
       for (let child of object3D.children) {
-        console.log({child})
         group.add(child);
       }
       object3D.add(group);

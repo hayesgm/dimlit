@@ -3,6 +3,7 @@ import { Body, Utils, System } from 'aframe-rapier';
 import { Mesh, MeshStandardMaterial, Object3D } from 'super-three';
 const { Vector3, Quaternion } = THREE;
 import { debug } from '../debug';
+import { Grabbable } from './grabbable';
 
 function asArray<T>(x: T | T[]): T[] {
   return Array.isArray(x) ? x : [x];
@@ -39,11 +40,8 @@ registerComponent('grabber', {
       window.addEventListener('mousedown', this.grip.bind(this));
       window.addEventListener('mouseup', this.drop.bind(this));
     } else {
-      let handControls = document.querySelectorAll('[hand-controls]');
-      handControls.forEach((handControl) => {
-        handControl.addEventListener('triggerdown', this.grip.bind(this));
-        handControl.addEventListener('triggerup', this.drop.bind(this));
-      });
+      this.el.addEventListener('gripdown', this.grip.bind(this));
+      this.el.addEventListener('gripup', this.drop.bind(this));
     }
   },
 
@@ -71,8 +69,7 @@ registerComponent('grabber', {
       // collidingEntity
       // TODO: The hard thing, convert the body into a tracker!
       console.log('collidingEntity:pre', collidingEntity);
-
-      collidingEntity.setAttribute('joint', { type: 'spherical', target: this.el });
+      collidingEntity.setAttribute('joint', { type: 'fixed', target: this.el});
       collidingEntity.setAttribute('collider', { collisionGroups: 0 });
       // collidingEntity.setAttribute('collider', 'sensor', true);
       // collidingEntity.setAttribute('track', 'body', this.el);
@@ -85,8 +82,13 @@ registerComponent('grabber', {
   drop: async function () {
     debug('drop');
     for (let gripped of this.gripping.values()) {
+      let body = await Body.getBody(gripped);
       gripped.removeAttribute('joint');
       gripped.setAttribute('collider', { collisionGroups: 0xffffffff });
+      let vel = (gripped.components.grabbable as unknown as Grabbable).vel();
+      if (body) {
+        body.rigidBody.setLinvel(vel, true);
+      }
     }
   },
 });
